@@ -1,0 +1,27 @@
+version: "3.8"
+
+volumes:
+  go-cache:
+    external: true
+
+networks:
+  app:
+    external:
+      name: pow-app
+
+services:
+  go-front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/root/.go/src/pow-f
+      - ~/go/pkg:/root/.go/pkg
+    networks:
+      app:
+        ipv4_address: 172.77.0.22
+    command: make run
+#    command: sleep 3600
+    working_dir: /root/.go/src/pow-f
+    ports:
+      - "8080:8080"
